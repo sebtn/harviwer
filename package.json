@@ -35,7 +35,12 @@
     "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
+    "bootstrap": "^3.3.7",
+    "d3": "^4.9.1",
+    "fixed-data-table": "^0.6.4",
+    "lodash": "^4.17.4",
     "react": "^15.5.4",
+    "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.4"
   }
 }
