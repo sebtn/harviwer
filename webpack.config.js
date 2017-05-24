@@ -30,8 +30,6 @@ module.exports = {
 				loader: 'style-loader!css-loader!sass-loader'
 			},
 			{
-
-			{
 				test: /\.(jpg|png|jpeg|svg|ttf|woff|woff2|eot)(\?v=\d+\.\d+\.\d+)?$/,
 				loader: 'url-loader'
 			},
