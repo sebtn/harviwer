@@ -1,12 +1,10 @@
-
 import  React, {Component, PorpTypes} from 'react'
 import _ from 'lodash'
 import {Row, Col, PageHeader, Button, ButtonGroup, Input} from 'react-bootstrap'
-import FixedDataTable from 'fixed-data-table'
+import FixedDataTable from 'fixed-data-table-2'
+import 'fixed-data-table-2/dist/fixed-data-table.css'
 
-
-const Table = FixedDataTable.Table
-const Column = FixedDataTable.Column
+const {Table, Column, Cell} = FixedDataTable
 
 export default class HarViewer extends Component {
 	constructor() {
@@ -34,14 +32,16 @@ export default class HarViewer extends Component {
 
 	render() {
 		return(	
-			<Row>
-				<Row>
-					<Col sm={12}>
-						<PageHeader>HarViewer</PageHeader>
-					</Col>
-				</Row>			
+			<div>
+				<div className="container-fluid pageHeader">
+					<Row>
+						<Col sm={12}>
+							<PageHeader>HarViewer</PageHeader>
+						</Col>
+					</Row>			
+				</div>
 
-				<Row>
+				<Row className="container-fluid">
 					<Col sm={12}>
 						<Table rowsCount={this.props.entries.length}
 										width={this.state.tableWidth}
@@ -49,25 +49,22 @@ export default class HarViewer extends Component {
 										height={this.state.tableHeight}
 										rowHeight={30}
 										rowGetter={this._getEntry}>
-							<Column dataKey="url"
+							<Column header="Url" 
 											width={this.state.columnWidths.url}
 											isResizable={true}
-											label="Url" 
-											flexGrow={null}/>							
-							<Column  dataKey="size"
+											flexGrow={null} />							
+							<Column  header="Size" 
 											width={this.state.columnWidths.size}
-											isResizable={true}
-											label="Size" />							
-						<Column   dataKey="time"
+											isResizable={true} />							
+						<Column   header="TimeLine"
 											width={this.state.columnWidths.time}
 											minWidth={200}
-											isResizable={true}
-											label="TimeLine" />
+											isResizable={true} />
 						</Table>		
 					</Col>
 				</Row>		
 
-			</Row>
+			</div>
 		)
 	}
 }
