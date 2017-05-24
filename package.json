@@ -35,7 +35,7 @@
     "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^4.0.0-alpha.6",
     "d3": "^4.9.1",
     "fixed-data-table": "^0.6.4",
     "lodash": "^4.17.4",

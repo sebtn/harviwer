@@ -18,30 +18,28 @@ module.exports = {
 		loaders: 
 		[	
 			{
-				test: /\.js$/,
+				test: /\.js|jsx?$/,
 				exclude: /(node_modules)/,
-				loader: 'babel-loader?optional[]=runtime',
+				loader: 'babel-loader',
 				query: {
-					preset: ['es2015','react']
+					presets: ['es2015', 'react']
 				}
 			},
-
 			{
-				test: /\.scss$/,
+				test: /\.(scss|css)$/,
 				loader: 'style-loader!css-loader!sass-loader'
 			},
+			{
 
 			{
 				test: /\.(jpg|png|jpeg|svg|ttf|woff|woff2|eot)(\?v=\d+\.\d+\.\d+)?$/,
 				loader: 'url-loader'
 			},
-
 			{
 				test: /\.(json)$/,
 				exclude: /(node_modules)/,
 				loader: 'json-loader'
 			}		
-
 		]
 	}
 }
