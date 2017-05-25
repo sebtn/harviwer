@@ -1,5 +1,9 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
+html, body {
+	height: 100%;
+	overflow: hidden;
+}
 body {
 	color:gray;
 }
@@ -7,4 +11,7 @@ body {
 	min-height: 100px;
 	margin: 15px;
 	border-bottom: 1px solid lightgray;
+}
+.buttons-container{
+	padding-left: 15px;
 }

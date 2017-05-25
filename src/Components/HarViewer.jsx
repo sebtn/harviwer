@@ -4,6 +4,7 @@ import _ from 'lodash'
 import {Row, Col, PageHeader, Button, ButtonGroup, Input} from 'react-bootstrap'
 import FixedDataTable from 'fixed-data-table-2'
 import 'fixed-data-table-2/dist/fixed-data-table.css'
+import mimeTypes from '../Core/mimeTypes.js'
 
 'use strict'
 const {Table, Column, Cell} = FixedDataTable
@@ -25,9 +26,30 @@ export default class HarViewer extends Component {
 		this._getEntry = this._getEntry.bind(this)
 		this._onColumnResized = this._onColumnResized.bind(this)
 		this._onResize = this._onResize.bind(this)
+		this._sampleChanged = this._sampleChanged.bind(this)
 	}
 
 // ___________________________________________________________________
+// 
+	_createButton(type, label) {
+		var handler = this._filterRequested.bind(this, type)
+		return (
+			<Button key={type}
+							bsStyle="primary"
+							active={this.state.type === type}
+							onClick={handler}> { label }
+			</Button>	
+		)
+	}
+
+	_filterRequested(type, event) {
+
+	}
+
+	_sampleChanged() {
+
+	}
+
 	_onResize() {
 		// automatically adjustment of width and height of table
 		let parent = ReactDOM.findDOMNode(this).parentNode  
@@ -58,16 +80,46 @@ export default class HarViewer extends Component {
 	}
 
 	render() {
+		var buttons = _.map(_.keys(mimeTypes.types), (x) => {
+			return this._createButton(x, mimeTypes.types[x].label)
+		})
 		return(	
-			<div>
-				<div className="container-fluid pageHeader">
+			<div className="container-fluid ">
+				<div className="pageHeader">
 					<Row>
 						<Col sm={12}>
 							<PageHeader>HarViewer</PageHeader>
 						</Col>
+						<Col sm={3} smOffset={9}>
+							<div>
+								<label className="control-label"></label>
+								<select className="form-control" onChange={this._sampleChanged}>
+									<option value="">----</option>
+								</select>
+							</div>
+						</Col>
 					</Row>			
 				</div>
 
+				<div>
+					<Row>
+						<Col sm={12}>
+							<p>PIE CHART</p>
+						</Col>
+					</Row>
+				</div>	
+				
+				<div className="buttons-container">	
+					<Row>
+						<Col sm={8}>
+							<ButtonGroup bsSize="small">
+								{this._createButton('all', 'All')}
+								{buttons}
+							</ButtonGroup> 
+						</Col>
+					</Row>
+				</div>	
+					
 				<Row className="container">
 					<Col sm={12}>
 						<Table  rowsCount={this.props.entries.length}
