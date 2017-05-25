@@ -1,7 +1,7 @@
 import  React, {Component, PorpTypes} from 'react'
 import  ReactDOM from 'react-dom'
 import _ from 'lodash'
-import {Row, Col, PageHeader, Button, ButtonGroup, Input} from 'react-bootstrap'
+import {Row, Col, PageHeader, Button, ButtonGroup, FormGroup, FormControl} from 'react-bootstrap'
 import FixedDataTable from 'fixed-data-table-2'
 import 'fixed-data-table-2/dist/fixed-data-table.css'
 import mimeTypes from '../Core/mimeTypes.js'
@@ -27,10 +27,15 @@ export default class HarViewer extends Component {
 		this._onColumnResized = this._onColumnResized.bind(this)
 		this._onResize = this._onResize.bind(this)
 		this._sampleChanged = this._sampleChanged.bind(this)
+		// this.this._filterdTextChanged = this.this._filterdTextChanged.bind(this)
 	}
 
 // ___________________________________________________________________
 // 
+	// _filterdTextChanged() {
+
+	// }
+
 	_createButton(type, label) {
 		var handler = this._filterRequested.bind(this, type)
 		return (
@@ -109,16 +114,26 @@ export default class HarViewer extends Component {
 					</Row>
 				</div>	
 				
-				<div className="buttons-container">	
 					<Row>
-						<Col sm={8}>
-							<ButtonGroup bsSize="small">
-								{this._createButton('all', 'All')}
-								{buttons}
-							</ButtonGroup> 
-						</Col>
+						<div className="buttons-container">	
+							<Col sm={8}>
+								<ButtonGroup bsSize="default">
+									{this._createButton('all', 'All')}
+									{buttons}
+								</ButtonGroup> 
+							</Col>
+							<Col sm={4}>
+								<FormGroup>
+									<FormControl type="search"
+														  placeholder="Search URL"
+														  bsSize="small"
+														  // onChange={this._filterdTextChanged}
+														  inputRef={ ref => { this.input = ref } } />
+								</FormGroup>														  
+							</Col>
+						</div>
 					</Row>
-				</div>	
+
 					
 				<Row className="container">
 					<Col sm={12}>
@@ -148,7 +163,6 @@ export default class HarViewer extends Component {
 						</Table>		
 					</Col>
 				</Row>		
-
 			</div>
 		)
 	}
