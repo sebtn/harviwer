@@ -64,6 +64,10 @@ export default class HarViewer extends Component {
 		const buttons = _.map(_.keys(mimeTypes.types), (x) => {
 			return this._createButton(x, mimeTypes.types[x].label)
 		})
+		//populate the select component
+		const options = _.map(window.samples, (s) => {
+			return ( <option key={s.id} value={s.id} > {s.label} </option> )
+		})
 		return (
 			<Grid>
 				<Row>
@@ -81,7 +85,8 @@ export default class HarViewer extends Component {
 						<div>
 							<label className="control-label"></label>
 							<select className="form-control" onChange={this._sampleChanged}>
-								<option value="">----</option>
+								<option value="">-----</option>
+								{options}
 							</select>
 						</div>
 					</Col>
