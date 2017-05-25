@@ -1,10 +1,13 @@
-import  React, {Component, PorpTypes} from 'react'
 import  ReactDOM from 'react-dom'
+import  React, {Component, PorpTypes} from 'react'
 import _ from 'lodash'
-import {Row, Col, PageHeader, Button, ButtonGroup, FormGroup, FormControl} from 'react-bootstrap'
 import FixedDataTable from 'fixed-data-table-2'
 import 'fixed-data-table-2/dist/fixed-data-table.css'
+import '../../node_modules/bootstrap/dist/css/bootstrap.css'
 import mimeTypes from '../Core/mimeTypes.js'
+import {Grid, Row, Col, PageHeader, Button, ButtonGroup, 
+				FormGroup, FormControl} from 'react-bootstrap'
+require('../app.scss')
 
 'use strict'
 const {Table, Column, Cell} = FixedDataTable
@@ -27,17 +30,18 @@ export default class HarViewer extends Component {
 		this._onColumnResized = this._onColumnResized.bind(this)
 		this._onResize = this._onResize.bind(this)
 		this._sampleChanged = this._sampleChanged.bind(this)
-		// this.this._filterdTextChanged = this.this._filterdTextChanged.bind(this)
+		this._filterdTextChanged = this._filterdTextChanged.bind(this)
+		this._filterRequested = this._filterRequested.bind(this)
 	}
 
 // ___________________________________________________________________
 // 
-	// _filterdTextChanged() {
+	_filterdTextChanged() {
 
-	// }
+	}
 
 	_createButton(type, label) {
-		var handler = this._filterRequested.bind(this, type)
+		var handler = this._filterRequested(this, type)
 		return (
 			<Button key={type}
 							bsStyle="primary"
@@ -57,7 +61,8 @@ export default class HarViewer extends Component {
 
 	_onResize() {
 		// automatically adjustment of width and height of table
-		let parent = ReactDOM.findDOMNode(this).parentNode  
+		// let parent = ReactDOM.findDOMNode(this).parentNode  
+		let parent = ReactDOM.findDOMNode(this.refs.entriesTable).parentNode 
 		this.setState({
 			tableWidth: parent.clientWidth - GutterWidth,
 			tableHeight: document.body.clientHeight - parent.offsetTop - GutterWidth * 0.5
@@ -85,17 +90,25 @@ export default class HarViewer extends Component {
 	}
 
 	render() {
-		var buttons = _.map(_.keys(mimeTypes.types), (x) => {
+		const buttons = _.map(_.keys(mimeTypes.types), (x) => {
 			return this._createButton(x, mimeTypes.types[x].label)
 		})
 		return(	
-			<div className="container-fluid ">
-				<div className="pageHeader">
+			<Grid>
 					<Row>
-						<Col sm={12}>
+						<Col className="pageHeader" sm={12}>
 							<PageHeader>HarViewer</PageHeader>
 						</Col>
-						<Col sm={3} smOffset={9}>
+					</Row>
+
+					<Row>
+						<Col sm={12}>
+							<p>PIE CHART</p>
+						</Col>
+					</Row>
+
+					<Row>
+						<Col className="margined" sm={4}>
 							<div>
 								<label className="control-label"></label>
 								<select className="form-control" onChange={this._sampleChanged}>
@@ -103,21 +116,12 @@ export default class HarViewer extends Component {
 								</select>
 							</div>
 						</Col>
-					</Row>			
-				</div>
-
-				<div>
-					<Row>
-						<Col sm={12}>
-							<p>PIE CHART</p>
-						</Col>
 					</Row>
-				</div>	
-				
+
+
 					<Row>
-						<div className="buttons-container">	
 							<Col sm={8}>
-								<ButtonGroup bsSize="default">
+								<ButtonGroup bsSize="small">
 									{this._createButton('all', 'All')}
 									{buttons}
 								</ButtonGroup> 
@@ -125,19 +129,19 @@ export default class HarViewer extends Component {
 							<Col sm={4}>
 								<FormGroup>
 									<FormControl type="search"
-														  placeholder="Search URL"
-														  bsSize="small"
-														  // onChange={this._filterdTextChanged}
-														  inputRef={ ref => { this.input = ref } } />
+															  placeholder="Search URL"
+															  bsSize="small"
+															  onChange={this._filterdTextChanged}
+															  inputRef={ ref => { this.input = ref } } />
 								</FormGroup>														  
 							</Col>
-						</div>
 					</Row>
 
 					
-				<Row className="container">
+				<Row>
 					<Col sm={12}>
-						<Table  rowsCount={this.props.entries.length}
+						<Table  ref="entriesTable" 
+									  rowsCount={this.props.entries.length}
 										width={this.state.tableWidth} 
 										headerHeight={35} 
 										height={this.state.tableHeight}
@@ -163,7 +167,7 @@ export default class HarViewer extends Component {
 						</Table>		
 					</Col>
 				</Row>		
-			</div>
+			</Grid>
 		)
 	}
 }
