@@ -12,15 +12,18 @@ export default class HarViewer extends Component {
 	constructor() {
 		super() 
 		this.state = {
-			c: []
+			entries: []
 		}
 		this._getEntry =  this._getEntry.bind(this)
 		this._sampleChanged = this._sampleChanged.bind(this)
 		this._filterdTextChanged = this._filterdTextChanged.bind(this)
 		this._filterRequested = this._filterRequested.bind(this)
+		this._renderHeader = this._renderHeader.bind(this)
 	}
 
-// ___________________________________________________________________
+// ___________________
+// 		METHODS TO USE  |
+// ___________________|
 
 	_sampleChanged() {}
 
@@ -43,10 +46,25 @@ export default class HarViewer extends Component {
 	}
 
 	render() {
+		return (	
+			<div>
+			{this._renderHeader()}
+				<Grid>
+					<Row>
+						<Col sm={12}>
+							<HarEntryTable entrie={this.state.entries} />
+						</Col>
+					</Row>		
+				</Grid>				
+			</div>
+		)
+	}
+	// renderHeader is returning the Grid
+	_renderHeader() {
 		const buttons = _.map(_.keys(mimeTypes.types), (x) => {
 			return this._createButton(x, mimeTypes.types[x].label)
 		})
-		return (	
+		return (
 			<Grid>
 				<Row>
 					<Col className="pageHeader" sm={12}>
@@ -85,13 +103,8 @@ export default class HarViewer extends Component {
 							</FormGroup>														  
 						</Col>
 				</Row>
-				<Row>
-					<Col sm={12}>
-						<HarEntryTable entrie={this.state.entries} />
-					</Col>
-				</Row>		
 			</Grid>
-			)
+		)
 	}
 }
 
