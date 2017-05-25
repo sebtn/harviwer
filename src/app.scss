@@ -1,5 +1,10 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 body {
-	color:blue;
+	color:gray;
+}
+.pageHeader {
+	min-height: 100px;
+	margin: 15px;
+	border-bottom: 1px solid lightgray;
 }

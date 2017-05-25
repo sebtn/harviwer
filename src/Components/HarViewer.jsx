@@ -1,11 +1,13 @@
 import  React, {Component, PorpTypes} from 'react'
+import  ReactDOM from 'react-dom'
 import _ from 'lodash'
 import {Row, Col, PageHeader, Button, ButtonGroup, Input} from 'react-bootstrap'
 import FixedDataTable from 'fixed-data-table-2'
 import 'fixed-data-table-2/dist/fixed-data-table.css'
-'use strict'
 
+'use strict'
 const {Table, Column, Cell} = FixedDataTable
+const GutterWidth = 30;
 
 export default class HarViewer extends Component {
 	constructor() {
@@ -22,12 +24,24 @@ export default class HarViewer extends Component {
 		}
 		this._getEntry = this._getEntry.bind(this)
 		this._onColumnResized = this._onColumnResized.bind(this)
+		this._onResize = this._onResize.bind(this)
 	}
 
 // ___________________________________________________________________
+	_onResize() {
+		// automatically adjustment of width and height of table
+		let parent = ReactDOM.findDOMNode(this).parentNode  
+		this.setState({
+			tableWidth: parent.clientWidth - GutterWidth,
+			tableHeight: document.body.clientHeight - parent.offsetTop - GutterWidth * 0.5
+		})
+	}
 
-	_getEntry(index) {
-		return  this.props.entries[index] 
+	componentDidMount() {
+		let global = window
+		// you debounce something that repeats a lot
+		global.addEventListener('resize', _.debounce(this._onResize), 50, {leading : true, trailing: true})
+		this._onResize()
 	}
 
 	_onColumnResized(newColumnWidth, columnKey) { 
@@ -39,8 +53,8 @@ export default class HarViewer extends Component {
 		this.setState({columnWidths: columnWidths, isResizable:false})
 	}
 
-	componentDidMount() {
-		
+	_getEntry(index) {
+		return  this.props.entries[index] 
 	}
 
 	render() {
