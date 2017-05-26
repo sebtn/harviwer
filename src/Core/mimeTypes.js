@@ -65,7 +65,7 @@ export default {
 function identify(mimeType) {
 	'use strict'
 	var fileType = _.find(_.keys(types), function(type) {
-		return _includes(types[type].mime, mimeType)
+		return _.includes(types[type].mime, mimeType)
 	})
-	return filetype || 'other'
+	return fileType || 'other'
 }

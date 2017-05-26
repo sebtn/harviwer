@@ -1,31 +1,52 @@
 import  ReactDOM from 'react-dom'
 import  React, {Component, PorpTypes} from 'react'
 import _ from 'lodash'
-import '../../node_modules/bootstrap/dist/css/bootstrap.css'
 import mimeTypes from '../Core/mimeTypes.js'
 import {Grid, Row, Col, PageHeader, Button, ButtonGroup, 
-				FormGroup, FormControl} from 'react-bootstrap'
+				FormGroup, FormControl, Alert} from 'react-bootstrap'
 import HarEntryTable from './HarEntryTable.jsx'
+import harParser from '../Core/harParser.js'
 
 'use strict'
 export default class HarViewer extends Component {
 	constructor() {
 		super() 
-		this.state = {
-			entries: []
-		}
-		this._getEntry =  this._getEntry.bind(this)
+		this.state = 	this._initialState()
+		
 		this._sampleChanged = this._sampleChanged.bind(this)
 		this._filterdTextChanged = this._filterdTextChanged.bind(this)
 		this._filterRequested = this._filterRequested.bind(this)
 		this._renderHeader = this._renderHeader.bind(this)
+		this._initialState = this._initialState.bind(this)
+		this._renderViewer = this._renderViewer.bind(this)
+		this._renderEmptyViewer = this._renderEmptyViewer.bind(this)
 	}
 
 // ___________________
 // 		METHODS TO USE  |
 // ___________________|
 
-	_sampleChanged() {}
+	_initialState() {
+		return {
+			activeHar: null,
+			entries: []
+		}
+	}
+
+	_sampleChanged() {
+		let selection = ReactDOM.findDOMNode(this.refs.selector).value
+		let har =  selection 
+			? _.find(window.samples, s => s.id === selection).har
+			: null
+			if(har) {
+				this.setState({activeHar: har})
+				console.log({activeHar: har})
+
+			}
+			else {
+				this.setState(this._initialState())
+			}
+	}
 
 	_filterRequested(type, event) {}
 
@@ -41,24 +62,52 @@ export default class HarViewer extends Component {
 			</Button>	
 		)
 	}
-	_getEntry(index) {
-		return  this.props.entries[index] 
-	}
 
 	render() {
+		let content = this.state.activeHar
+										? this._renderViewer(this.state.activeHar)
+										: this._renderEmptyViewer()	
+
 		return (	
 			<div>
-			{this._renderHeader()}
-				<Grid>
-					<Row>
-						<Col sm={12}>
-							<HarEntryTable entrie={this.state.entries} />
-						</Col>
-					</Row>		
-				</Grid>				
+				{this._renderHeader()}
+				{content}
 			</div>
 		)
 	}
+
+	_renderEmptyViewer() {
+		return(
+			<Grid>
+				<Row>
+					<Col sm={12}>
+						<p></p>
+						<Alert bsStyle="warning">
+							<strong>No HAR loaded</strong>
+						</Alert>
+					</Col>
+				</Row>		
+			</Grid>				
+		)
+	}
+
+	_renderViewer(har) {
+		let pages = harParser.parse(har), 
+				currentPage = pages[0]
+		let entries = currentPage.entries
+			console.log('pages: ', pages)
+			console.log('entries: ', entries)
+		return (
+			<Grid>
+				<Row>
+					<Col sm={12}>
+						<HarEntryTable entries={entries} />
+					</Col>
+				</Row>		
+			</Grid>				
+		)
+	}
+
 	// renderHeader is returning the Grid
 	_renderHeader() {
 		const buttons = _.map(_.keys(mimeTypes.types), (x) => {
@@ -84,7 +133,7 @@ export default class HarViewer extends Component {
 					<Col className="margined" sm={4}>
 						<div>
 							<label className="control-label"></label>
-							<select className="form-control" onChange={this._sampleChanged}>
+							<select ref="selector" className="form-control" onChange={this._sampleChanged}>
 								<option value="">-----</option>
 								{options}
 							</select>

@@ -2,10 +2,10 @@
 
 html, body {
 	height: 100%;
-	overflow: hidden;
+
 }
 body {
-	color:gray;
+	color:black;
 }
 .pageHeader {
 	min-height: 50px;
@@ -20,3 +20,12 @@ body {
 	margin-left: 66.5%;
 	margin-bottom: 45px;
 }
+
+.fixedDataTableLayout_rowsContainer {
+  overflow: visible;
+  z-index: 1 !important;
+	overflow: hidden;
+}
+
+
+
