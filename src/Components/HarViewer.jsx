@@ -20,6 +20,7 @@ export default class HarViewer extends Component {
 		this._initialState = this._initialState.bind(this)
 		this._renderViewer = this._renderViewer.bind(this)
 		this._renderEmptyViewer = this._renderEmptyViewer.bind(this)
+		this._onColumnSort = this._onColumnSort.bind(this)
 	}
 
 // ___________________
@@ -29,7 +30,8 @@ export default class HarViewer extends Component {
 	_initialState() {
 		return {
 			activeHar: null,
-			entries: []
+			sortKey: null,
+			sortDirection: null
 		}
 	}
 
@@ -51,6 +53,28 @@ export default class HarViewer extends Component {
 	_filterRequested(type, event) {}
 
 	_filterdTextChanged() {}
+
+	_onColumnSort(dataKey, direction) {
+		this.setState({sortKey: dataKey, sortDirection: direction})
+	}
+
+	_sortEntriesByKey(sortKey, sortDirection, entries) {
+		if(_.isEmpty(sortKey) | _.isEmpty(sortDirection)) return entries
+			let keyMap = {
+				url: 'request.url',
+				time: 'time.start'
+				},
+				getValue = function(entry) {
+					let key = keyMap[sortKey] || sortKey
+					return _.get(entry, key)
+			}
+
+			let sorted =  _.sortBy(entries, getValue)
+			if (sortDirection === 'desc') {
+				sorted.reverse()
+			}
+			return sorted
+	}
 
 	_createButton(type, label) {
 		var handler = this._filterRequested(type)
@@ -94,14 +118,16 @@ export default class HarViewer extends Component {
 	_renderViewer(har) {
 		let pages = harParser.parse(har), 
 				currentPage = pages[0]
-		let entries = currentPage.entries
-			console.log('pages: ', pages)
-			console.log('entries: ', entries)
+
+		let entries = this._sortEntriesByKey(this.state.sortKey, 
+									this.state.sortDirection, 
+									currentPage.entries)
 		return (
 			<Grid>
 				<Row>
 					<Col sm={12}>
-						<HarEntryTable entries={entries} />
+						<HarEntryTable entries={entries} 
+						onColumnSort={this._onColumnSort}/>
 					</Col>
 				</Row>		
 			</Grid>				

@@ -23,6 +23,11 @@ export default class HarEntryTable extends Component {
 				size:200,
 				time:200
 			},
+			sortDirection: {
+				url: null,
+				size: null,
+				time: null
+			},
 			tableWidth:1000,
 			tableHeight: 500
 		}
@@ -75,24 +80,47 @@ export default class HarEntryTable extends Component {
 		this.setState({columnWidths: columnWidths, isResizable:false})
 	}
 
+	_columnClicked(dataKey) {
+		let sortDirections = this.state.sortDirection,
+				dir = sortDirections[dataKey]
+		if(dir === null ) {dir = 'asc'}			
+		else if(dir === 'asc' ) {dir = 'desc'}			
+		else if(dir === 'desc' ) {dir = null}			
+
+		// Reset sort			
+		_.each(_.keys(sortDirections), function(e) {
+			sortDirections[e] = null
+		})
+			sortDirections[dataKey] = dir
+
+		if (this.props.onColumnSort) { 
+			this.props.onColumnSort(dataKey, dir) 
+		}
+	}
+
 	_headerRenderer(label, dataKey) {
-		const sortClass = 'glyphicon glyphicon-sort-by-attributes'
+		// console.log(sortDirection[dataKey])
+		// var dir = this.state.sortDirection[dataKey],
+		//     classMap = {
+		//       asc: 'glyphicon glyphicon-sort-by-attributes',
+		//       desc: 'glyphicon glyphicon-sort-by-attributes-alt',
+		//     }
+		// console.log(dir);
+		// let sortClass = dir ? classMap[dir] : 'See me?'
+		// console.log(classMap[dir])
+		// console.log(sortClass)
+
+		let sortClass = 'glyphicon glyphicon-sort'
+
 		return (
 			<div className="text-primary sortable"
-				onClick={this._columnClicked(this, dataKey)}>
+				onClick={() => this._columnClicked(dataKey)}>
 				<strong>{label}</strong>
 				&nbsp;
 				<i className={sortClass}></i>
 			</div>
 		)
 	}
-	_columnClicked(dataKey) {
-		let dir = 'asc'
-		if(this.props.onColumnSort) {
-			this.props.onColumnSort(dataKey, dir) 
-			}
-		}
-
 
 	render() {
 		return (					
@@ -139,10 +167,12 @@ export default class HarEntryTable extends Component {
 
 HarEntryTable.defaultProps = {
 	entries: [],
+	page: null,
 	onColumnSort: null
 }
 
 HarEntryTable.porpType =  {
 	entries: PropTypes.array,
-	onColumnSort: PropTypes.func
+	onColumnSort: PropTypes.func,
+	page: PropTypes.object
 }
