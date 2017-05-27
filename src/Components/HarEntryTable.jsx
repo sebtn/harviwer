@@ -5,12 +5,10 @@ import 'fixed-data-table/dist/fixed-data-table.css'
 import FixedDataTable from 'fixed-data-table'
 import {Grid, Row, Col, PageHeader, Button, ButtonGroup, 
 				FormGroup, FormControl} from 'react-bootstrap'
-import TextCell from './TextCell.jsx'
 import _ from 'lodash'
 
 'use strict'
 const {Table, Column, Cell, rowIndex, columnKey, data, field} = FixedDataTable
-
 const GutterWidth = 30;
 
 export default class HarEntryTable extends Component {
@@ -37,6 +35,7 @@ export default class HarEntryTable extends Component {
 			url: 'request.url',
 			time: 'time.start'
 		}
+		//size is not inside keyMap so it's key is passed
 		key = keyMap[key] || key
 		return _.get(entry, key)
 	}
@@ -73,7 +72,6 @@ export default class HarEntryTable extends Component {
 	}
 
 	render() {
-
 		return (					
 			<Table  ref="entriesTable" 
 						  rowsCount={this.props.entries.length}
@@ -85,22 +83,25 @@ export default class HarEntryTable extends Component {
 							isColumnResizing={this.state.isColumnResizing}
 							onColumnResizeEndCallback={this._onColumnResized}
 							>
-				<Column header='url'
+				<Column header={<Cell>Url</Cell>}
+								label='Url'
 								columnKey='url'
-								cellDataGetter={this._readKey} 
 								dataKey="url"
+								cellDataGetter={this._readKey} 
 								width={this.state.columnWidths.url}
 								isResizable={true}
 								flexGrow={null} />							
-				<Column header="Size" 
+				<Column header={<Cell>Size</Cell>} 
+								label='Size'
 								columnKey="size"
 								dataKey="size"
 								width={this.state.columnWidths.size}
 								cellDataGetter={this._readKey} 
 								isResizable={true} />							
-			<Column   header="TimeLine"
+			<Column   header={<Cell>TimeLine</Cell>}
+								label='TimeLine'
 								columnKey="time"
-								dataKey="url"
+								dataKey="time"
 								width={this.state.columnWidths.time}
 								cellDataGetter={this._readKey} 
 								minWidth={200}

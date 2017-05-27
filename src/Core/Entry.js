@@ -5,7 +5,8 @@ export default class Entry {
 		'use strict'
 		let startTime = new Date(harEntry.startedDateTime) 
 									- new Date(page.startedDateTime)
-		// this is the rescue
+		// this is the rescue props and values form
+		// har files we want to keep
 		let {
 			time,
 			request: { url, method },
