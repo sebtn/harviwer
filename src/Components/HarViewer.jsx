@@ -40,7 +40,7 @@ export default class HarViewer extends Component {
 			: null
 			if(har) {
 				this.setState({activeHar: har})
-				console.log({activeHar: har})
+				console.log('active har obj:' , {activeHar: har})
 
 			}
 			else {
@@ -53,7 +53,7 @@ export default class HarViewer extends Component {
 	_filterdTextChanged() {}
 
 	_createButton(type, label) {
-		var handler = this._filterRequested(this, type)
+		var handler = this._filterRequested(type)
 		return (
 			<Button key={type}
 							bsStyle="primary"
@@ -142,7 +142,7 @@ export default class HarViewer extends Component {
 				</Row>
 				<Row>
 						<Col sm={8}>
-							<ButtonGroup bsSize="small">
+							<ButtonGroup bsSize="large">
 								{this._createButton('all', 'All')}
 								{buttons}
 							</ButtonGroup> 

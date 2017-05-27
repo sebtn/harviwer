@@ -1,15 +1,17 @@
-import  React, {Component, PorpTypes} from 'react'
+import  React, {Component} from 'react'
 import  ReactDOM from 'react-dom'
 import 'fixed-data-table/dist/fixed-data-table.css'
 // import FixedDataTable from 'fixed-data-table-2'
 import FixedDataTable from 'fixed-data-table'
 import {Grid, Row, Col, PageHeader, Button, ButtonGroup, 
-				FormGroup, FormControl} from 'react-bootstrap'
+				FormGroup, FormControl, Glyphicon} from 'react-bootstrap'
 import _ from 'lodash'
+import PropTypes from 'prop-types'
 
 'use strict'
 const {Table, Column, Cell, rowIndex, columnKey, data, field} = FixedDataTable
-const GutterWidth = 30;
+const GutterWidth = 30
+
 
 export default class HarEntryTable extends Component {
 	constructor() {
@@ -28,6 +30,8 @@ export default class HarEntryTable extends Component {
 		this._onResize = this._onResize.bind(this)
 		this._getEntry =  this._getEntry.bind(this)
 		this._readKey =  this._readKey.bind(this)
+		this._columnClicked =  this._columnClicked.bind(this)
+		this._headerRenderer =  this._headerRenderer.bind(this)
 
 	}
 	_readKey(key, entry) {
@@ -71,6 +75,25 @@ export default class HarEntryTable extends Component {
 		this.setState({columnWidths: columnWidths, isResizable:false})
 	}
 
+	_headerRenderer(label, dataKey) {
+		const sortClass = 'glyphicon glyphicon-sort-by-attributes'
+		return (
+			<div className="text-primary sortable"
+				onClick={this._columnClicked(this, dataKey)}>
+				<strong>{label}</strong>
+				&nbsp;
+				<i className={sortClass}></i>
+			</div>
+		)
+	}
+	_columnClicked(dataKey) {
+		let dir = 'asc'
+		if(this.props.onColumnSort) {
+			this.props.onColumnSort(dataKey, dir) 
+			}
+		}
+
+
 	render() {
 		return (					
 			<Table  ref="entriesTable" 
@@ -84,6 +107,7 @@ export default class HarEntryTable extends Component {
 							onColumnResizeEndCallback={this._onColumnResized}
 							>
 				<Column header={<Cell>Url</Cell>}
+							  headerRenderer={this._headerRenderer}
 								label='Url'
 								columnKey='url'
 								dataKey="url"
@@ -92,6 +116,7 @@ export default class HarEntryTable extends Component {
 								isResizable={true}
 								flexGrow={null} />							
 				<Column header={<Cell>Size</Cell>} 
+							  headerRenderer={this._headerRenderer}
 								label='Size'
 								columnKey="size"
 								dataKey="size"
@@ -99,6 +124,7 @@ export default class HarEntryTable extends Component {
 								cellDataGetter={this._readKey} 
 								isResizable={true} />							
 			<Column   header={<Cell>TimeLine</Cell>}
+							  headerRenderer={this._headerRenderer}
 								label='TimeLine'
 								columnKey="time"
 								dataKey="time"
@@ -112,5 +138,11 @@ export default class HarEntryTable extends Component {
 }
 
 HarEntryTable.defaultProps = {
-	entries: []
+	entries: [],
+	onColumnSort: null
+}
+
+HarEntryTable.porpType =  {
+	entries: PropTypes.array,
+	onColumnSort: PropTypes.func
 }

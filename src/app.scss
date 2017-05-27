@@ -1,31 +1,42 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
+
 html, body {
 	height: 100%;
 
 }
 body {
 	color:black;
+	font-size: 13px;
 }
+::-webkit-input-placeholder {
+   font-size: 15px!important;
+}
+:-moz-placeholder { /* Firefox 18- */
+      font-size: 15px!important;
+}
+::-moz-placeholder {  /* Firefox 19+ */
+      font-size: 15px!important;
+}
+
 .pageHeader {
 	min-height: 50px;
 	margin: 15px;
-	border-bottom: 1px solid lightgray;
+	font-size: 32px;
 }
 .buttons-container{
 	padding-left: 15px;
 }
-
-.margined{
+.margined {
 	margin-left: 66.5%;
 	margin-bottom: 45px;
 }
-
-.fixedDataTableLayout_rowsContainer {
-  overflow: visible;
-  z-index: 1 !important;
-	overflow: hidden;
+.margined select {
+	min-height: 35px;
+	font-size: 15px!important
 }
+
+
 
 
 
