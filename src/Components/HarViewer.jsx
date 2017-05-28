@@ -7,6 +7,7 @@ import {Grid, Row, Col, PageHeader, Button, ButtonGroup,
 				FormGroup, FormControl, Alert, Input} from 'react-bootstrap'
 import HarEntryTable from './HarEntryTable.jsx'
 import FilterBar from './FilterBar.jsx'
+import SampleSelector from './SampleSelector.jsx'
 import harParser from '../Core/harParser.js'
 
 'use strict'
@@ -47,20 +48,6 @@ export default class HarViewer extends Component {
 	}
 
 // ________________________________________________________________
-	_sampleChanged() {
-		let selection = ReactDOM.findDOMNode(this.refs.selector).value
-		let har =  selection 
-			? _.find(window.samples, s => s.id === selection).har
-			: null
-			if(har) {
-				this.setState({activeHar: har})
-			}
-			else {
-				this.setState(this._initialState())
-			}
-	}
-
-// ________________________________________________________________
 	_onColumnSort(dataKey, dir) {
 		this.setState({sortKey: dataKey, sortDirection: dir})
 		// const nextSortkey = Object.assign({}, this.state.sortKey, dataKey)
@@ -84,6 +71,12 @@ export default class HarViewer extends Component {
 				sorted.reverse()
 			}
 			return sorted
+	}
+
+// ________________________________________________________________
+	_sampleChanged(har) {
+			if(har) { this.setState({activeHar: har}) }
+			else { this.setState(this.InitialState()) }
 	}
 
 // ________________________________________________________________
@@ -142,10 +135,7 @@ export default class HarViewer extends Component {
 // ________________________________________________________________
 	// renderHeader is returning the Grid
 	_renderHeader() {
-		//populate the select component
-		let options = _.map(window.samples, (s) => {
-			return ( <option key={s.id} value={s.id} > {s.label} </option> )
-		})
+
 		return (
 			<Grid>
 				<Row>
@@ -160,14 +150,9 @@ export default class HarViewer extends Component {
 				</Row>
 				<Row>
 					<Col className="margined" sm={4}>
-						<div>
-							<label className="control-label"></label>
-							<select ref="selector" className="form-control" 
-								onChange={ this._sampleChanged.bind(this) }>
-								<option value="">-----</option>
-								{options}
-							</select>
-						</div>
+						<SampleSelector 
+							onSampleChanged={this._sampleChanged.bind(this)} >
+						</SampleSelector>
 					</Col>
 				</Row>
 				<FilterBar onChange={ this._onFilterChanged.bind(this) } 
