@@ -9,7 +9,8 @@ import _ from 'lodash'
 import PropTypes from 'prop-types'
 
 'use strict'
-const {Table, Column, Cell, rowIndex, columnKey, data, field} = FixedDataTable
+const {Table, Column, Cell, rowIndex, 
+			columnKey, data, field} = FixedDataTable
 const GutterWidth = 30
 
 
@@ -36,33 +37,39 @@ export default class HarEntryTable extends Component {
 		this._getEntry =  this._getEntry.bind(this)
 		this._readKey =  this._readKey.bind(this)
 		this._columnClicked =  this._columnClicked.bind(this)
-		this._headerRenderer =  this._headerRenderer.bind(this)
+		this._headerRender =  this._headerRender.bind(this)
 
 	}
+
+// ________________________________________________________________
 	_readKey(key, entry) {
 		let keyMap = {
 			url: 'request.url',
 			time: 'time.start'
 		}
-		//size is not inside keyMap so it's key is passed
+		//size is not inside keyMap so it's key is passed instead
 		key = keyMap[key] || key
 		return _.get(entry, key)
 	}
 
+// ________________________________________________________________
 	_getEntry(index) {
 		return this.props.entries[index] 
 	}
 
+// ________________________________________________________________
 	_onResize() {
 		// automatically adjustment of width and height of table
 		// let parent = ReactDOM.findDOMNode(this).parentNode  
 		let parent = ReactDOM.findDOMNode(this.refs.entriesTable).parentNode 
 		this.setState({
 			tableWidth: parent.clientWidth - GutterWidth,
-			tableHeight: document.body.clientHeight - parent.offsetTop - GutterWidth * 0.5
+			tableHeight: document.body.clientHeight - 
+									 parent.offsetTop - GutterWidth * 0.5
 		})
 	}
 
+// ________________________________________________________________
 	componentDidMount() {
 		let global = window
 		// you debounce something that repeats a lot
@@ -71,6 +78,7 @@ export default class HarEntryTable extends Component {
 			this._onResize()
 	}
 
+// ________________________________________________________________
 	_onColumnResized(newColumnWidth, columnKey) { 
 		let columnWidths = this.state.columnWidths
 		// Select the col by key, then  the new col 
@@ -80,16 +88,17 @@ export default class HarEntryTable extends Component {
 		this.setState({columnWidths: columnWidths, isResizable:false})
 	}
 
+// ________________________________________________________________
 	_columnClicked(dataKey) {
 		let sortDirections = this.state.sortDirection,
 				dir = sortDirections[dataKey]
-		if(dir === null ) {dir = 'asc'}			
-		else if(dir === 'asc' ) {dir = 'desc'}			
-		else if(dir === 'desc' ) {dir = null}			
+		if (dir === null) {dir = 'asc'}	
+		else if (dir === 'asc') { dir = 'desc'}			
+		else if (dir === 'desc') { dir = null }
 
 		// Reset sort			
-		_.each(_.keys(sortDirections), function(e) {
-			sortDirections[e] = null
+		_.each(_.keys(sortDirections), function(x) {
+			sortDirections[x] = null
 		})
 			sortDirections[dataKey] = dir
 
@@ -98,20 +107,20 @@ export default class HarEntryTable extends Component {
 		}
 	}
 
-	_headerRenderer(label, dataKey) {
-		// console.log(sortDirection[dataKey])
-		// var dir = this.state.sortDirection[dataKey],
+// ________________________________________________________________
+	_headerRender(label, dataKey) {
+		// let dir = this.state.sortDirection[dataKey],
 		//     classMap = {
 		//       asc: 'glyphicon glyphicon-sort-by-attributes',
 		//       desc: 'glyphicon glyphicon-sort-by-attributes-alt',
 		//     }
-		// console.log(dir);
-		// let sortClass = dir ? classMap[dir] : 'See me?'
 		// console.log(classMap[dir])
+		// let sortClass = dir ? classMap[dir] : 'See me?'
+		// console.log(dir)
 		// console.log(sortClass)
-
+		// 
 		let sortClass = 'glyphicon glyphicon-sort'
-
+		
 		return (
 			<div className="text-primary sortable"
 				onClick={() => this._columnClicked(dataKey)}>
@@ -121,6 +130,8 @@ export default class HarEntryTable extends Component {
 			</div>
 		)
 	}
+
+// ________________________________________________________________
 
 	render() {
 		return (					
@@ -135,7 +146,7 @@ export default class HarEntryTable extends Component {
 							onColumnResizeEndCallback={this._onColumnResized}
 							>
 				<Column header={<Cell>Url</Cell>}
-							  headerRenderer={this._headerRenderer}
+							  headerRenderer={this._headerRender}
 								label='Url'
 								columnKey='url'
 								dataKey="url"
@@ -144,7 +155,7 @@ export default class HarEntryTable extends Component {
 								isResizable={true}
 								flexGrow={null} />							
 				<Column header={<Cell>Size</Cell>} 
-							  headerRenderer={this._headerRenderer}
+							  headerRenderer={this._headerRender}
 								label='Size'
 								columnKey="size"
 								dataKey="size"
@@ -152,7 +163,7 @@ export default class HarEntryTable extends Component {
 								cellDataGetter={this._readKey} 
 								isResizable={true} />							
 			<Column   header={<Cell>TimeLine</Cell>}
-							  headerRenderer={this._headerRenderer}
+							  headerRenderer={this._headerRender}
 								label='TimeLine'
 								columnKey="time"
 								dataKey="time"
@@ -164,6 +175,8 @@ export default class HarEntryTable extends Component {
 		)
 	}
 }
+
+// ________________________________________________________________
 
 HarEntryTable.defaultProps = {
 	entries: [],
