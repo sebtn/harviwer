@@ -172,7 +172,7 @@ export default class HarViewer extends Component {
 					</Col>
 				</Row>
 				<FilterBar onChange={ this._onFilterChanged.bind(this) } 
-					onFilterTextChange={this._onFilterTextChanged.bind(this) } />
+					_onFilterTextChange={this._onFilterTextChanged.bind(this) } />
 
 			</Grid>
 		)

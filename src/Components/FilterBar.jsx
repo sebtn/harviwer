@@ -1,4 +1,3 @@
-import  ReactDOM from 'react-dom'
 import  React, {Component} from 'react'
 import _ from 'lodash'
 import mimeTypes from '../Core/mimeTypes.js'
@@ -13,17 +12,10 @@ export default class FilterBar extends Component {
 		this.state = {
 			type: 'all'
 		}
-		// this.clickHandle = this.clickHandle.bind(this)
 	}
-
-
 
 // ________________________________________________________________
 	_createButton(type, label) {
-		// function clickHandle (e)  {
-		// 	e.preventDefault()
-		//  return this._filterRequested.bind(this, type)
-		// }	
 		let handler = this._filterRequested.bind(this, type)
 		return (
 			<Button 
@@ -46,10 +38,13 @@ _filterRequested(type, event) {
 
 // ________________________________________________________________
 // Firing callback to be handled in harViewer, onFilterTextChange
-_filterTextChanged() {
-	if(this.props._onFilterTextChange) {
-		this.props._onFilterTextChange(this.refs.filterText.getValue())
-	}	
+_filterTextChanged(event) {	
+	// if(this.props._onFilterTextChange) {
+	// const text = this.refs.input.value
+	const text = event.target.value
+	this.props._onFilterTextChange(text)
+		// this.props._onFilterTextChange(this.refs.filterText.value)
+	// }	
 }
 
 // ________________________________________________________________
@@ -67,13 +62,12 @@ _filterTextChanged() {
 					</Col>
 					<Col sm={4}>
 						<FormGroup>
-							<FormControl
+								<input 
 									type="search"
 								  placeholder="Search URL"
-								  bsSize="small"
-								  ref='filterText'
-								  onChange={ this._filterTextChanged.bind(this)} >
-						  </FormControl>
+								  onChange={ this._filterTextChanged.bind(this) } 
+								  ref='input' 
+							  /> 
 						</FormGroup>														  
 					</Col>
 			</Row>
