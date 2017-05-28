@@ -18,34 +18,30 @@ export default class FilterBar extends Component {
 	_createButton(type, label) {
 		let handler = this._filterRequested.bind(this, type)
 		return (
-			<Button 
-				key={type}
-				bsStyle="primary"
-				active={this.state.type === type}
-				onClick={handler}
-			> 
-				{ label }
-			</Button>	
+				<Button 
+					key={type}
+					bsStyle="primary"
+					active={this.state.type === type}
+					onClick={handler}
+				> 
+					{ label }
+				</Button>	
 		)
 	}
 
 // ________________________________________________________________
 // Firing callback to be handled in harViewer, onChange
-_filterRequested(type, event) {
-	this.setState({type: type})
-	this.props.onChange(type)
-}
+	_filterRequested(type, event) {
+		this.setState({type: type})
+		this.props.onChange(type)
+	}
 
 // ________________________________________________________________
 // Firing callback to be handled in harViewer, onFilterTextChange
-_filterTextChanged(event) {	
-	// if(this.props._onFilterTextChange) {
-	// const text = this.refs.input.value
-	const text = event.target.value
-	this.props._onFilterTextChange(text)
-		// this.props._onFilterTextChange(this.refs.filterText.value)
-	// }	
-}
+	_filterTextChanged(event) {	
+		const text = event.target.value
+		this.props._onFilterTextChange(text)
+	}
 
 // ________________________________________________________________
 	render() {
@@ -55,10 +51,10 @@ _filterTextChanged(event) {
 		return (
 			<Row>
 					<Col sm={8}>
-						<ButtonGroup bsSize="large">
-							{this._createButton('all', 'All')}
-							{buttons}
-						</ButtonGroup> 
+							<ButtonGroup bsSize="large">
+								{this._createButton('all', 'All')}
+								{buttons}
+							</ButtonGroup> 
 					</Col>
 					<Col sm={4}>
 						<FormGroup>
@@ -75,6 +71,7 @@ _filterTextChanged(event) {
 	}
 }
 
+// ________________________________________________________________
 FilterBar.defaultProps = {
 	onChange: null,
 	onFilterTextChange: null

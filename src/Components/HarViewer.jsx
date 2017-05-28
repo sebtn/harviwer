@@ -13,8 +13,7 @@ import harParser from '../Core/harParser.js'
 export default class HarViewer extends Component {
 	constructor() {
 		super() 
-		this.state = 	this._initialState()
-		
+		this.state = 	this._initialState()	
 	}
 
 // ________________________________________________________________
@@ -178,6 +177,7 @@ export default class HarViewer extends Component {
 		)
 	}
 }
+
 // ________________________________________________________________
 
 
