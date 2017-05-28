@@ -36,7 +36,6 @@ export default class HarEntryTable extends Component {
 		this._onResize = this._onResize.bind(this)
 		this._getEntry =  this._getEntry.bind(this)
 		this._readKey =  this._readKey.bind(this)
-		this._columnClicked =  this._columnClicked.bind(this)
 		this._headerRender =  this._headerRender.bind(this)
 
 	}
@@ -123,7 +122,7 @@ export default class HarEntryTable extends Component {
 		
 		return (
 			<div className="text-primary sortable"
-				onClick={() => this._columnClicked(dataKey)}>
+				onClick={this._columnClicked.bind(this, dataKey)}>
 				<strong>{label}</strong>
 				&nbsp;
 				<i className={sortClass}></i>

@@ -15,12 +15,6 @@ export default class HarViewer extends Component {
 		super() 
 		this.state = 	this._initialState()
 		
-		this._renderHeader = this._renderHeader.bind(this)
-		this._initialState = this._initialState.bind(this)
-		this._renderViewer = this._renderViewer.bind(this)
-		this._renderEmptyViewer = this._renderEmptyViewer.bind(this)
-		this._onColumnSort = this._onColumnSort.bind(this)
-
 	}
 
 // ________________________________________________________________
@@ -96,8 +90,8 @@ export default class HarViewer extends Component {
 // ________________________________________________________________
 	render() {
 		let content = this.state.activeHar
-										? this._renderViewer(this.state.activeHar)
-										: this._renderEmptyViewer()	
+									? this._renderViewer(this.state.activeHar)
+									: this._renderEmptyViewer()	
 		return (	
 			<div>
 				{this._renderHeader()}
@@ -124,9 +118,8 @@ export default class HarViewer extends Component {
 
 // ________________________________________________________________
 	_renderViewer(har) {
-		let pages = harParser.parse(har), 
-				currentPage = pages[0]
-
+		let pages = harParser.parse(har)
+		let currentPage = pages[0]
 		let filter = {
 				type: this.state.filterType,
 				text: this.state.filterText
@@ -135,13 +128,12 @@ export default class HarViewer extends Component {
 		let entries = this._sortEntriesByKey(this.state.sortKey, 
 									this.state.sortDirection, 
 									filteredEntries)
-				// console.log(filteredEntries)
 		return (
 			<Grid>
 				<Row>
 					<Col sm={12}>
 						<HarEntryTable entries={entries} 
-						onColumnSort={this._onColumnSort} />
+						onColumnSort={this._onColumnSort.bind(this)} />
 					</Col>
 				</Row>		
 			</Grid>				

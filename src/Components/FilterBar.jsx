@@ -13,16 +13,26 @@ export default class FilterBar extends Component {
 		this.state = {
 			type: 'all'
 		}
+		// this.clickHandle = this.clickHandle.bind(this)
 	}
+
+
 
 // ________________________________________________________________
 	_createButton(type, label) {
-		var handler = this._filterRequested.bind(this, type)
+		// function clickHandle (e)  {
+		// 	e.preventDefault()
+		//  return this._filterRequested.bind(this, type)
+		// }	
+		let handler = this._filterRequested.bind(this, type)
 		return (
-			<Button key={type}
-							bsStyle="primary"
-							active={this.state.type === type}
-							onClick={handler}> { label }
+			<Button 
+				key={type}
+				bsStyle="primary"
+				active={this.state.type === type}
+				onClick={handler}
+			> 
+				{ label }
 			</Button>	
 		)
 	}
@@ -31,9 +41,7 @@ export default class FilterBar extends Component {
 // Firing callback to be handled in harViewer, onChange
 _filterRequested(type, event) {
 	this.setState({type: type})
-	if(this.props.OnChange) {
-		this.props.onChange(type)
-	}
+	this.props.onChange(type)
 }
 
 // ________________________________________________________________
