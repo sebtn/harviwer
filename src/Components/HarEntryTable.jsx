@@ -20,9 +20,9 @@ export default class HarEntryTable extends Component {
 		this.state = {
 			isColumnResizing: false,
 			columnWidths: {
-				url:500,
-				size:200,
-				time:200
+				url:700,
+				size:210,
+				time:210
 			},
 			sortDirection: {
 				url: null,
