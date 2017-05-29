@@ -75,7 +75,7 @@ export default class HarViewer extends Component {
 
 // ________________________________________________________________
 	_sampleChanged(har) {
-			if(har) { this.setState({activeHar: har}) }
+			if (har) { this.setState({activeHar: har}) }
 			else { this.setState(this.InitialState()) }
 	}
 
@@ -125,6 +125,7 @@ export default class HarViewer extends Component {
 				<Row>
 					<Col sm={12}>
 						<HarEntryTable entries={entries} 
+						page={currentPage}
 						onColumnSort={this._onColumnSort.bind(this)} />
 					</Col>
 				</Row>		
@@ -135,7 +136,6 @@ export default class HarViewer extends Component {
 // ________________________________________________________________
 	// renderHeader is returning the Grid
 	_renderHeader() {
-
 		return (
 			<Grid>
 				<Row>
@@ -151,13 +151,11 @@ export default class HarViewer extends Component {
 				<Row>
 					<Col className="margined" sm={4}>
 						<SampleSelector 
-							onSampleChanged={this._sampleChanged.bind(this)} >
-						</SampleSelector>
+							onSampleChanged={this._sampleChanged.bind(this)} />
 					</Col>
 				</Row>
 				<FilterBar onChange={ this._onFilterChanged.bind(this) } 
 					_onFilterTextChange={this._onFilterTextChanged.bind(this) } />
-
 			</Grid>
 		)
 	}

@@ -6,13 +6,15 @@ import FixedDataTable from 'fixed-data-table'
 import {Grid, Row, Col, PageHeader, Button, ButtonGroup, 
 				FormGroup, FormControl, Glyphicon} from 'react-bootstrap'
 import _ from 'lodash'
+import d3 from 'd3'
 import PropTypes from 'prop-types'
+import TimeBar from './TimeBar.jsx'
+import Formatter from '../Core/Formatter.js'
 
 'use strict'
 const {Table, Column, Cell, rowIndex, 
 			columnKey, data, field} = FixedDataTable
 const GutterWidth = 30
-
 
 export default class HarEntryTable extends Component {
 	constructor() {
@@ -32,14 +34,9 @@ export default class HarEntryTable extends Component {
 			tableWidth:1000,
 			tableHeight: 500
 		}
-		this._onColumnResized = this._onColumnResized.bind(this)
-		this._onResize = this._onResize.bind(this)
-		this._getEntry =  this._getEntry.bind(this)
-		this._readKey =  this._readKey.bind(this)
-		this._headerRender =  this._headerRender.bind(this)
-
 	}
 
+// KeyMap
 // ________________________________________________________________
 	_readKey(key, entry) {
 		let keyMap = {
@@ -51,6 +48,7 @@ export default class HarEntryTable extends Component {
 		return _.get(entry, key)
 	}
 
+// Resizing
 // ________________________________________________________________
 	_getEntry(index) {
 		return this.props.entries[index] 
@@ -87,6 +85,7 @@ export default class HarEntryTable extends Component {
 		this.setState({columnWidths: columnWidths, isResizable:false})
 	}
 
+// Sorting
 // ________________________________________________________________
 	_columnClicked(dataKey) {
 		let sortDirections = this.state.sortDirection,
@@ -106,6 +105,7 @@ export default class HarEntryTable extends Component {
 		}
 	}
 
+// Renders
 // ________________________________________________________________
 	_headerRender(label, dataKey) {
 		// let dir = this.state.sortDirection[dataKey],
@@ -131,6 +131,45 @@ export default class HarEntryTable extends Component {
 	}
 
 // ________________________________________________________________
+	_prepareScale(entries, page) {
+		let startTime = 0
+		let lastEntry = _.last(entries)
+		let endTime = lastEntry.time.start + lastEntry.time.total
+		let maxTime = Math.max(endTime, page.pageTimings.onLoad)
+
+		let scale = d3.scale.linear()
+							.domain([startTime, Math.ceil(maxTime)])
+							.range([0, 100])
+		return scale
+	}
+
+// __________________________________________________________________
+	renderSizeColumn(cellData, cellDataKey, rowData, rowIndex, columnData, width) {
+	  return (
+	    <span>{formatter.fileSize(cellData)}</span>
+	  );
+	}
+
+// __________________________________________________________________
+	_renderTimeColumn(cellData, cellDataKey, rowData, rowIndex, columnData, width) {
+		let start = rowData.time.start
+		let total = rowData.time.total
+		let pageTimings = this.props.page.pageTimings
+		let scale = this._prepareScale(this.props.entries, this.props.page)
+
+		return (
+			<TimeBar 
+				scale={scale}
+				start={start}
+				total={total}
+				timings={rowData.time.details}
+				documentContentLoad={pageTimings.onContentLoad}
+				pageLoad={pageTimings.onLoad} 
+			/>
+		)
+	}
+
+// ________________________________________________________________
 	render() {
 		return (					
 			<Table  ref="entriesTable" 
@@ -139,34 +178,35 @@ export default class HarEntryTable extends Component {
 							headerHeight={35} 
 							height={this.state.tableHeight}
 							rowHeight={30}
-							rowGetter={this._getEntry}
+							rowGetter={this._getEntry.bind(this)}
 							isColumnResizing={this.state.isColumnResizing}
-							onColumnResizeEndCallback={this._onColumnResized}
+							onColumnResizeEndCallback={this._onColumnResized.bind(this)}
 							>
-				<Column header={<Cell>Url</Cell>}
-							  headerRenderer={this._headerRender}
+				<Column 
+							  headerRenderer={this._headerRender.bind(this)}
 								label=' Url '
 								columnKey='url'
 								dataKey="url"
-								cellDataGetter={this._readKey} 
+								cellDataGetter={this._readKey.bind(this)} 
 								width={this.state.columnWidths.url}
 								isResizable={true}
 								flexGrow={null} />							
-				<Column header={<Cell>Size</Cell>} 
-							  headerRenderer={this._headerRender}
+				<Column 
+							  headerRenderer={this._headerRender.bind(this)}
 								label=' Size (Bytes) '
 								columnKey="size"
 								dataKey="size"
 								width={this.state.columnWidths.size}
-								cellDataGetter={this._readKey} 
+								cellDataGetter={this._readKey.bind(this)} 
 								isResizable={true} />							
-			<Column   header={<Cell>TimeLine</Cell>}
-							  headerRenderer={this._headerRender}
+			<Column   
+							  headerRenderer={this._headerRender.bind(this)}
+							  cellRenderer={this._renderTimeColumn.bind(this)}
 								label=' Time (Ms) '
 								columnKey="time"
 								dataKey="time"
 								width={this.state.columnWidths.time}
-								cellDataGetter={this._readKey} 
+								cellDataGetter={this._readKey.bind(this)} 
 								minWidth={200}
 								isResizable={true} />
 			</Table>		
