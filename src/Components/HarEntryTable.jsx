@@ -181,8 +181,7 @@ export default class HarEntryTable extends Component {
 							isColumnResizing={this.state.isColumnResizing}
 							onColumnResizeEndCallback={this._onColumnResized.bind(this)}
 							>
-				<Column 
-							  headerRenderer={this._headerRender.bind(this)}
+				<Column headerRenderer={this._headerRender.bind(this)}
 								label=' Url '
 								columnKey='url'
 								dataKey="url"
@@ -190,16 +189,14 @@ export default class HarEntryTable extends Component {
 								width={this.state.columnWidths.url}
 								isResizable={true}
 								flexGrow={null} />							
-				<Column 
-							  headerRenderer={this._headerRender.bind(this)}
+				<Column headerRenderer={this._headerRender.bind(this)}
 								label=' Size (Bytes) '
 								columnKey="size"
 								dataKey="size"
 								width={this.state.columnWidths.size}
 								cellDataGetter={this._readKey.bind(this)} 
 								isResizable={true} />							
-			<Column   
-							  headerRenderer={this._headerRender.bind(this)}
+			<Column   headerRenderer={this._headerRender.bind(this)}
 							  cellRenderer={this._renderTimeColumn.bind(this)}
 								label=' Time (Ms) '
 								columnKey="time"
