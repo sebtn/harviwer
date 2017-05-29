@@ -9,7 +9,6 @@ import _ from 'lodash'
 import d3 from 'd3'
 import PropTypes from 'prop-types'
 import TimeBar from './TimeBar.jsx'
-import Formatter from '../Core/Formatter.js'
 
 'use strict'
 const {Table, Column, Cell, rowIndex, 
