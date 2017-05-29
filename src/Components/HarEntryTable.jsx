@@ -131,7 +131,6 @@ export default class HarEntryTable extends Component {
 	}
 
 // ________________________________________________________________
-
 	render() {
 		return (					
 			<Table  ref="entriesTable" 
@@ -176,7 +175,6 @@ export default class HarEntryTable extends Component {
 }
 
 // ________________________________________________________________
-
 HarEntryTable.defaultProps = {
 	entries: [],
 	page: null,

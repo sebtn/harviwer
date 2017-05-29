@@ -21,6 +21,7 @@ export default class SampleSelector extends Component {
 			}
 	}
 
+// ________________________________________________________________
 	render() {
 		//populate the select component
 		let options = _.map(window.samples, (s) => {
@@ -39,6 +40,7 @@ export default class SampleSelector extends Component {
 	}
 } 
 
+// ________________________________________________________________
 SampleSelector.defaultProps = {
 	onSampleChanged: null
 }
