@@ -44,6 +44,6 @@ export default class SampleSelector extends Component {
 SampleSelector.defaultProps = {
 	onSampleChanged: null
 }
-SampleSelector.proType = {
+SampleSelector.propType = {
 	onSampleChanged: PropTypes.func
 }

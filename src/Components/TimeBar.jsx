@@ -72,8 +72,6 @@ export default class TimeBar extends Component {
 			</OverlayTrigger>
 		)				
 	}
-
-
 }
 
 // ________________________________________________________________

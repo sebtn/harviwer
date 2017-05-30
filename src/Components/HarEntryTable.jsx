@@ -9,6 +9,9 @@ import _ from 'lodash'
 import d3 from 'd3'
 import PropTypes from 'prop-types'
 import TimeBar from './TimeBar.jsx'
+import FileType from './FileType.jsx'
+import Formatter from '../Core/Formatter.js'
+
 
 'use strict'
 const {Table, Column, Cell, rowIndex, 
@@ -143,10 +146,13 @@ export default class HarEntryTable extends Component {
 	}
 
 // __________________________________________________________________
-	renderSizeColumn(cellData, cellDataKey, rowData, rowIndex, columnData, width) {
-	  return (
-	    <span>{formatter.fileSize(cellData)}</span>
-	  );
+	_renderUrlColumn(cellData, cellDataKey, rowData, rowIndex, columnData, width) {
+		return ( <FileType url={rowData.request.url} type={rowData.type} />)
+	}	
+
+// __________________________________________________________________
+	_renderSizeColumn(cellData, cellDataKey, rowData, rowIndex, columnData, width) {
+	  return ( <span>{Formatter.fileSize(cellData)}</span> );
 	}
 
 // __________________________________________________________________
@@ -182,6 +188,8 @@ export default class HarEntryTable extends Component {
 							onColumnResizeEndCallback={this._onColumnResized.bind(this)}
 							>
 				<Column headerRenderer={this._headerRender.bind(this)}
+							  cellRenderer={this._renderUrlColumn.bind(this)}
+				
 								label=' Url '
 								columnKey='url'
 								dataKey="url"
@@ -190,6 +198,8 @@ export default class HarEntryTable extends Component {
 								isResizable={true}
 								flexGrow={null} />							
 				<Column headerRenderer={this._headerRender.bind(this)}
+							  cellRenderer={this._renderSizeColumn.bind(this)}
+
 								label=' Size (Bytes) '
 								columnKey="size"
 								dataKey="size"

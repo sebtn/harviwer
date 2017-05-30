@@ -1,5 +1,47 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
+@mixin type($color) {
+	background: linear-gradient($color, darken($color, 15%))
+}
+.fileType {
+	white-space: nowrap;
+
+	.fileType-url {
+		display: inline-block;
+		margin-left: 1rem
+	}
+	.fileType-type {
+		border-radius: 3px;
+		color: white;
+		padding: 2px 5px;
+		font-size: 1rem;
+		display: inline-block;
+		margin-left: 3px;
+		font-weight: bold;
+		@include type(#999);
+
+		&.html {
+			@include type(#456499);
+		}
+		&.css {
+			@include type(#6b9979)
+		}
+		&.js {
+			@include type(#99993b)
+		}
+		&.image {
+			@include type(#866399)
+		}
+		&.json {
+			@include type(#558f99)
+		}
+		&.font {
+			@include type(#799958)
+		}
+	}
+}
+
+
 $timebar-color: #5ae666;
 $container-height: 30px;
 $bar-height: 15px;
