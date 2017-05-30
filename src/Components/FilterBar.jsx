@@ -5,6 +5,7 @@ import {Grid, Row, Col, PageHeader, Button, ButtonGroup,
 				FormGroup, FormControl, Alert, Input} from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
+'use strict'
 export default class FilterBar extends Component {
 
 	constructor() {

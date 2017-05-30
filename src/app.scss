@@ -1,5 +1,9 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
+svg {
+	padding: 150px 0 0 150px;
+	font-size: 18px;
+}
 @mixin type($color) {
 	background: linear-gradient($color, darken($color, 15%))
 }

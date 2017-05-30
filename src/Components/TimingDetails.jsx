@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import Formatter from '../Core/Formatter.js'
 
+'use strict'
 export default class TiminigDetails extends Component {
 	constructor() {
 		super()

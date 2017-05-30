@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 
+'use strict'
 export default class FileType extends Component {
 	constructor() {
 		super()

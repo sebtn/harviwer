@@ -7,6 +7,7 @@ import {Grid, Row, Col, PageHeader, Button, ButtonGroup,
 				FormGroup, FormControl, Alert, Input} from 'react-bootstrap'
 import HarEntryTable from './HarEntryTable.jsx'
 import FilterBar from './FilterBar.jsx'
+import TypePieChart from './TypePieChart.jsx'
 import SampleSelector from './SampleSelector.jsx'
 import harParser from '../Core/harParser.js'
 
@@ -122,6 +123,18 @@ export default class HarViewer extends Component {
 									filteredEntries)
 		return (
 			<Grid>
+
+				<Row>
+					<Col sm={12}>
+						<TypePieChart entries={currentPage.entries}></TypePieChart>
+					</Col>
+				</Row>
+
+				<FilterBar 
+					onChange={ this._onFilterChanged.bind(this) } 
+					_onFilterTextChange={this._onFilterTextChanged.bind(this) } 
+				/>
+
 				<Row>
 					<Col sm={12}>
 						<HarEntryTable entries={entries} 
@@ -143,19 +156,20 @@ export default class HarViewer extends Component {
 						<PageHeader>HarViewer</PageHeader>
 					</Col>
 				</Row>
+
 				<Row>
-					<Col sm={12}>
-						<p>PIE CHART</p>
-					</Col>
+				  <Col sm={12}>
+				    <p>Pie Chart</p>
+				  </Col>
 				</Row>
+
 				<Row>
 					<Col className="margined" sm={4}>
 						<SampleSelector 
 							onSampleChanged={this._sampleChanged.bind(this)} />
 					</Col>
 				</Row>
-				<FilterBar onChange={ this._onFilterChanged.bind(this) } 
-					_onFilterTextChange={this._onFilterTextChanged.bind(this) } />
+
 			</Grid>
 		)
 	}
