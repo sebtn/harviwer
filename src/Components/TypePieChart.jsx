@@ -10,10 +10,10 @@ export default class TypePieChart extends Component {
 	constructor() {
 		super()
 		this.state = {
-			svgWidth:275,
-			svgHeight:275,
-			width:125,
-			height:125
+			svgWidth:325,
+			svgHeight:325,
+			width:150,
+			height:150
 		}
 	}
 
@@ -67,11 +67,9 @@ export default class TypePieChart extends Component {
 		// 	Y: this.state.svgHeight 
 		// }
 		return (
-			<div className="svgBox">
 				<svg  ref="container" width={this.state.svgWidth} height={this.state.svgHeight}>
 					{/*<g  ref="container"  transform={ `translate(${center.x}, ${center.y})` }></g>*/}
 				</svg>
-			</div>	
 		)
 	}
 

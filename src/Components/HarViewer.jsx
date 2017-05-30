@@ -158,12 +158,6 @@ export default class HarViewer extends Component {
 				</Row>
 
 				<Row>
-				  <Col sm={12}>
-				    <p>Pie Chart</p>
-				  </Col>
-				</Row>
-
-				<Row>
 					<Col className="margined" sm={4}>
 						<SampleSelector 
 							onSampleChanged={this._sampleChanged.bind(this)} />

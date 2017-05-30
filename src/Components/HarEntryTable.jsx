@@ -33,7 +33,7 @@ export default class HarEntryTable extends Component {
 				size: null,
 				time: null
 			},
-			tableWidth:1000,
+			tableWidth:1110,
 			tableHeight: 500
 		}
 	}
@@ -60,7 +60,7 @@ export default class HarEntryTable extends Component {
 	_onResize() {
 		// automatically adjustment of width and height of table
 		// let parent = ReactDOM.findDOMNode(this).parentNode  
-		let parent = ReactDOM.findDOMNode(this.refs.entriesTable).parentNode 
+		let parent = ReactDOM.findDOMNode(this.refs.entriesTable).parentNode
 		this.setState({
 			tableWidth: parent.clientWidth - GutterWidth,
 			tableHeight: document.body.clientHeight - 
@@ -70,11 +70,10 @@ export default class HarEntryTable extends Component {
 
 // ________________________________________________________________
 	componentDidMount() {
-		let global = window
 		// you debounce something that repeats a lot
-		global.addEventListener('resize', 
-			_.debounce(this._onResize), 50, {leading : true, trailing: true})
-			this._onResize()
+		// window.addEventListener('resize', 
+		// 	_.debounce(this._onResize), 50, {leading : true, trailing: true})
+		// 	this._onResize()
 	}
 
 // ________________________________________________________________
@@ -189,7 +188,6 @@ export default class HarEntryTable extends Component {
 							>
 				<Column headerRenderer={this._headerRender.bind(this)}
 							  cellRenderer={this._renderUrlColumn.bind(this)}
-				
 								label=' Url '
 								columnKey='url'
 								dataKey="url"
@@ -199,7 +197,6 @@ export default class HarEntryTable extends Component {
 								flexGrow={null} />							
 				<Column headerRenderer={this._headerRender.bind(this)}
 							  cellRenderer={this._renderSizeColumn.bind(this)}
-
 								label=' Size (Bytes) '
 								columnKey="size"
 								dataKey="size"
