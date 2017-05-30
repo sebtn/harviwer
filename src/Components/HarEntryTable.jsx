@@ -34,7 +34,7 @@ export default class HarEntryTable extends Component {
 				time: null
 			},
 			tableWidth:1110,
-			tableHeight: 500
+			tableHeight: 750
 		}
 	}
 

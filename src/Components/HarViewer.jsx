@@ -153,14 +153,16 @@ export default class HarViewer extends Component {
 			<Grid>
 				<Row>
 					<Col className="pageHeader" sm={12}>
-						<PageHeader>HarViewer</PageHeader>
+						<PageHeader>Built on React.js</PageHeader>
+						<h1>Har Viewer</h1>
 					</Col>
 				</Row>
 
 				<Row>
 					<Col className="margined" sm={4}>
 						<SampleSelector 
-							onSampleChanged={this._sampleChanged.bind(this)} />
+							onSampleChanged={this._sampleChanged.bind(this)}
+					 />
 					</Col>
 				</Row>
 
